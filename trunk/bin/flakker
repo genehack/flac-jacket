@@ -1,0 +1,85 @@
+#! /usr/bin/perl
+
+# $Id$
+
+use strict;
+use warnings;
+$|++;
+
+use Carp;
+use File::Path;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use FlacJacket;
+
+die "need a /music/INCOMING dir" 
+  unless -d '/music/INCOMING';
+
+die "can't get to /music/INCOMING"
+  unless chdir '/music/INCOMING';
+
+my $DIR   = getInputDirectory();
+my $count = getNumberOfDisks();
+my $year  = getYear();
+my $genre = getGenre();
+
+if ( $count eq 1 ) {
+  print "\nReady to rip disk. Hit <RET> when disk is loaded.";
+  <STDIN>;
+  FlacJacket::RipDisk( 1 , $year , $genre );
+}
+else {
+  foreach my $disk ( 1 .. $count ) {
+    print "\nReady to rip disk #$disk. Hit <RET> when disk is loaded.";
+    <STDIN>;
+    FlacJacket::RipDisk( $disk , $year , $genre );      
+  }
+}
+
+# getGenre
+sub getGenre {
+  print "Genre? :";
+  my $genre = <STDIN>;
+  chomp $genre;
+  return $genre;
+} #/getGenre
+
+# getInputDirectory
+sub getInputDirectory {
+  print "directory for disk? ";
+  my $DIR = <STDIN>;
+  chomp $DIR;
+  mkpath $DIR;
+  croak "Couldn't make $DIR"
+    unless -d $DIR;
+  
+  mkpath "$DIR/art";
+  croak "Couldn't make $DIR/art"
+    unless -d "$DIR/art";
+  
+  mkpath "$DIR/meta";
+  croak "Couldn't make $DIR/meta"
+    unless -d "$DIR/meta";
+  
+  chdir $DIR;
+  return $DIR;
+} #/getInputDirectory
+
+# getNumberOfDisks
+sub getNumberOfDisks {
+  print "How many disks? ";
+  my $count = <STDIN>;
+  chomp $count;
+  die "'$count' not a number"
+    unless $count =~ /^\d+$/;
+  return $count;
+} #/getNumberOfDisks
+
+# getYear
+sub getYear {
+  print "Year? :";
+  my $year = <STDIN>;
+  chomp $year;
+  return $year;
+} #/getYear

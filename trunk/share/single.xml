@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE CDInfo SYSTEM "http://www.musicbrainz.org/dtd/CDInfo.dtd">
+
+<CDInfo>
+   <Title>1965</Title>
+   <NumTracks>11</NumTracks>
+
+   <IdInfo>
+      <DiskId>
+         <Id>WG0KoSAO80.s7f4WcG467DrZdss-</Id>
+      </DiskId>
+   </IdInfo>
+
+   <SingleArtistCD>
+      <Artist>THE AFGHAN WHIGS</Artist>
+      <Track Num="1">
+         <Name>Somethin' Hot</Name>
+      </Track>
+      <Track Num="2">
+         <Name>Crazy</Name>
+      </Track>
+      <Track Num="3">
+         <Name>Uptown Again</Name>
+      </Track>
+      <Track Num="4">
+         <Name>Sweet Son Of A Bitch</Name>
+      </Track>
+      <Track Num="5">
+         <Name>66</Name>
+      </Track>
+      <Track Num="6">
+         <Name>Citi Soleil</Name>
+      </Track>
+      <Track Num="7">
+         <Name>John The Baptist</Name>
+      </Track>
+      <Track Num="8">
+         <Name>The Slide Song</Name>
+      </Track>
+      <Track Num="9">
+         <Name>Neglekted</Name>
+      </Track>
+      <Track Num="10">
+         <Name>Omerta</Name>
+      </Track>
+      <Track Num="11">
+         <Name>The Vampire Lanois</Name>
+      </Track>
+   </SingleArtistCD>
+</CDInfo>

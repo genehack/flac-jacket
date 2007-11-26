@@ -1,0 +1,9 @@
+at some point it would be good to remove the cdda2wav dependancy.
+
+if you could query musicbrainz directly, that would be one way to do it.
+
+webservice::musicbrainz may be useful: <http://search.cpan.org/~bfaist/WebService-MusicBrainz-0.09/>
+
+these may be good too:
+* <http://search.cpan.org/~svanzoest/MusicBrainz-Client-0.11/Client/Simple.pm>
+* <http://search.cpan.org/~svanzoest/MusicBrainz-Client-0.11/Client/Simple/Album.pm>

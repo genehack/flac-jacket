@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE CDInfo SYSTEM "http://www.musicbrainz.org/dtd/CDInfo.dtd">
+
+<CDInfo>
+   <Title>CMJ New Music Monthly 143</Title>
+   <NumTracks>17</NumTracks>
+
+   <IdInfo>
+      <DiskId>
+         <Id>Cd7CHsInTZYAfTUqcjyQa.DZipc-</Id>
+      </DiskId>
+   </IdInfo>
+
+   <MultipleArtistCD>
+     <Track Num="1">
+       <Artist>Bright Eyes</Artist>
+       <Name>I Will Be Grateful For This Day</Name>
+     </Track>
+     <Track Num="2">
+       <Artist>Oasis</Artist>
+       <Name>Acquiesce</Name>
+     </Track>
+     <Track Num="3">
+       <Artist>Copeland</Artist>
+       <Name>Control Freak</Name>
+     </Track>
+     <Track Num="4">
+       <Artist>Mew</Artist>
+       <Name>Special</Name>
+     </Track>
+     <Track Num="5">
+       <Artist>The Comfies</Artist>
+       <Name>Close To Me</Name>
+     </Track>
+     <Track Num="6">
+       <Artist>Amos Lee</Artist>
+       <Name>Shout Out Loud</Name>
+     </Track>
+     <Track Num="7">
+       <Artist>Boys Like Girls</Artist>
+       <Name>Hero/Heroine</Name>
+     </Track>
+     <Track Num="8">
+       <Artist>A.G.</Artist>
+       <Name>Frozen</Name>
+     </Track>
+     <Track Num="9">
+       <Artist>Sandi Thom</Artist>
+       <Name>I Wish I Was A Punk Rocker (With Flowers In My Hair)</Name>
+     </Track>
+     <Track Num="10">
+       <Artist>A Bad Think</Artist>
+       <Name>Graveyard Song</Name>
+     </Track>
+     <Track Num="11">
+       <Artist>The Rewinds</Artist>
+       <Name>Ghostriders</Name>
+     </Track>
+     <Track Num="12">
+       <Artist>Hammock</Artist>
+       <Name>Raising Your Voice... Trying to Stop an Echo</Name>
+     </Track>
+     <Track Num="13">
+       <Artist>Nicole Atkins</Artist>
+       <Name>Neptune City</Name>
+     </Track>
+     <Track Num="14">
+       <Artist>Terra Diablo</Artist>
+       <Name>That Always Works</Name>
+     </Track>
+     <Track Num="15">
+       <Artist>Delicate Noise</Artist>
+       <Name>Clearly</Name>
+     </Track>
+     <Track Num="16">
+       <Artist>David Ford</Artist>
+       <Name>I Don't Care What You Call Me</Name>
+     </Track>
+     <Track Num="17">
+       <Artist>Jay Wells</Artist>
+       <Name>California</Name>
+     </Track>
+   </MultipleArtistCD>
+</CDInfo>

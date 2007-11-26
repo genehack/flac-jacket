@@ -1,0 +1,41 @@
+#! /usr/bin/perl 
+
+# $Id$
+
+use strict;
+use warnings;
+
+use Carp;
+use File::Copy;
+use File::Path;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use FlacJacket;
+
+foreach ( qw| art meta |) {
+  if ( -e $_ ) {
+    next if -d $_;
+    croak "creation of '$_' dir blocked";
+  }
+  mkpath $_;
+}
+
+croak "no cover" unless -e "./cover.jpg";
+move( "cover.jpg" , "art/insert-front.jpg" );
+FlacJacket::MakeCover();
+
+foreach my $file ( glob '*.mp3' ) {
+  my $new_file = FlacJacket::SanitizeFileName( $file );
+  $new_file = "1-$new_file";
+  
+  move( $file , $new_file ) or die "move failed";
+  $file = $new_file;
+
+  my $tags = FlacJacket::Id3ToYAML( $file );
+  
+  FlacJacket::ApplyTagsToFile( $tags , $file );
+}
+
+
+
