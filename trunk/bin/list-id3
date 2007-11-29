@@ -1,0 +1,13 @@
+#! /bin/bash
+
+# $Id$
+# $URL$
+
+clear
+
+for i in ./*.mp3 ; do
+    id3v2 -l "$i"
+    echo
+    echo
+done
+

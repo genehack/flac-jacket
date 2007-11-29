@@ -1,5 +1,8 @@
 #! /bin/sh
 
+# $Id$
+# $URL$
+
 for j in flac mp3 ; do
     for i in /music/files/$j/*/* ; do 
         echo "retagging in DIR: $i"

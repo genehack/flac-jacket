@@ -1,0 +1,15 @@
+#! /usr/bin/perl -w
+
+# $Id$
+# $URL$
+
+use strict;
+$|++;
+
+foreach( <*/*.ogg> ) {
+  my( $path ) = /(.*)\.ogg/;
+  my $newpath = "$path.mp3";
+  print "processing $_...";
+  `ogg123 -d wav $_ -f - | lame - $newpath`;
+  print "done.\n"
+}

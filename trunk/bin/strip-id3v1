@@ -1,0 +1,6 @@
+#! /bin/bash
+
+# $Id$
+# $URL$
+
+id3v2 -s *.mp3

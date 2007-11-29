@@ -1,0 +1,20 @@
+#! /bin/sh
+
+# $Id$
+# $URL$
+
+# get some basic stats about the mp3 collection
+
+for i in /music/mp3/ /music/INCOMING/; do 
+   printf "%20s: %7d songs by %5d artists from %6d CDs\n" \
+       "$i" \
+       "`find $i -name '*.mp3' -print | wc -l`" "`ls $i | wc -l`" \
+       "`for j in $i/*; do ls "$j" 2>/dev/null; done | sort | uniq | wc -l`"
+done
+
+printf "%20s: %7d songs\n" "/music/.ripped" "`find /music/.ripped -name '*.ripped' -print | wc -l`"
+echo
+
+for i in /music/mp3/ /music/.ripped /music/INCOMING; do
+   du -sh $i
+done

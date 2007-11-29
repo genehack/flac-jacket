@@ -1,0 +1,32 @@
+#! /usr/bin/perl
+
+# $Id$
+# $URL$
+
+
+use strict;
+use warnings;
+
+print `clear`;
+
+chdir( '/music/mp3' );
+my $tagged_mp3s    = mp3_count();
+my $tagged_artists = artist_count();
+my $tagged_albums  = album_count();
+
+my $total_mp3s    = sprintf "%10d" , $tagged_mp3s;
+my $total_artists = sprintf "%10d" , $tagged_artists;
+my $total_albums  = sprintf "%10d" , $tagged_albums; 
+
+print <<EOF;
+*** TOTAL MP3s
+    MP3s: $total_mp3s
+ Artists: $total_artists
+  Albums: $total_albums
+
+EOF
+
+#sub album_count  { sprintf "%10d" , `ls -dF */* | grep '/\$' | cut -f2 -d/ | sort | uniq | wc -l` }
+sub album_count  { sprintf "%10d" , `find * -type d | grep '/' | cut -f2 -d/ | sort | uniq | wc -l` } 
+sub artist_count { sprintf "%10d" , `ls | wc -l` }
+sub mp3_count    { sprintf "%10d" , `find . -name '*.mp3' | wc -l` }
