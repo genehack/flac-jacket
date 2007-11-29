@@ -7,7 +7,8 @@ for j in flac mp3 ; do
     for i in /music/files/$j/*/* ; do 
         echo "retagging in DIR: $i"
         cd $i
-        ~/.common/flac-jacket/bin/retag 
+        ### FIXME clearly this shouldn' be hardcoded, duh.
+        ~/proj/flac-jacket/bin/retag 
     done
 done
 cd
