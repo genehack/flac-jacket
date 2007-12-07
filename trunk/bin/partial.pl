@@ -6,7 +6,8 @@
 use strict;
 use warnings;
 
-use lib "/home/genehack/proj/flac-jacket/lib";
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
 use FlacJacket;
 
 unlink 'audio.cddb';  
