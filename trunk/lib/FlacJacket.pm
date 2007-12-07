@@ -13,6 +13,7 @@ use Cwd;
 use File::Copy;
 use File::Path;
 use Image::Magick;
+use List::MoreUtils  qw/ any /;
 use MP3::Info;
 use XML::Simple;
 use YAML             qw/ DumpFile LoadFile /;
@@ -117,8 +118,10 @@ sub Id3ToYAML {
   # if we're converting over an existing MP3 dir, we want everything to be
   # unclassified, so it has to be listened to at least once to get tagged
   # properly
-  unshift @genres , 'Unclassified';
-      
+  unless ( any { $_ eq 'Unclassified' } @genres) {
+    unshift @genres , 'Unclassified';
+  }
+  
   my $yaml;
   $yaml->{album}     = $tag->{ALBUM};
   $yaml->{artist}    = \@artists;
@@ -371,11 +374,10 @@ sub RipDisk {
     or die "Couldn't make ./$dir ($!)";
   chdir $dir;
   
-  #`cdda2wav -Icooked_ioctl -D/dev/cdrom -L 0 -J`;
-  `cdda2wav -D/dev/sg2 -L 0 -x -paranoia -B track`;
+  # FIXME wtf portable code much?
+  `cdda2wav -D/dev/sg2 -L 0 -max -paranoia -bulk track`;
   unlink 'audio.cddb';
   unlink $_ foreach glob( '*.inf' );
-#  `cdparanoia -B 1-`;
   foreach my $wav ( glob( '*.wav' )) {
     `flac $wav`;
     unlink $wav;

@@ -6,7 +6,7 @@
 use strict;
 use warnings;
 
-use lib "/home/genehack/lib";
+use lib "/home/genehack/proj/flac-jacket/lib";
 use FlacJacket;
 
 unlink 'audio.cddb';  

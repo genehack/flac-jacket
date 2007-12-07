@@ -1,9 +1,0 @@
-#! /bin/sh
-# $Id$
-# $URL$
-
-clear
-cd /music/mp3
-for i in [0123456789] A B C D E F G H I J K L M N O P Q R S T U V W X Y Z; do 
-  printf "  %12s : %3d\n" $i `ls -d $i* 2>/dev/null | wc -l`; 
-done

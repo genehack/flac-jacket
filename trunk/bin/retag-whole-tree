@@ -3,12 +3,17 @@
 # $Id$
 # $URL$
 
+RETAG=`which retag 2>/dev/null`;
+if [ "x$RETAG" = "x" ]; then
+    echo "Can't find 'retag' in \$PATH"
+    exit 1
+fi
+
 for j in flac mp3 ; do
     for i in /music/files/$j/*/* ; do 
         echo "retagging in DIR: $i"
         cd $i
-        ### FIXME clearly this shouldn' be hardcoded, duh.
-        ~/proj/flac-jacket/bin/retag 
+        $RETAG
     done
 done
 cd

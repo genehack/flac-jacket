@@ -10,7 +10,7 @@ use Carp;
 use YAML  qw/ LoadFile /;
 
 use FindBin;
-use lib "$FindBin::Bin/../lib";
+use lib "$FindBin::RealBin/../lib";
 use FlacJacket;
 
 croak "No meta information found\n" unless -d './meta';

@@ -11,7 +11,7 @@ use File::Copy;
 use File::Path;
 
 use FindBin;
-use lib "$FindBin::Bin/../lib";
+use lib "$FindBin::RealBin/../lib";
 use FlacJacket;
 
 foreach ( qw| art meta |) {
