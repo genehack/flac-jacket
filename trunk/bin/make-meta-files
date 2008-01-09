@@ -1,0 +1,48 @@
+#! /usr/bin/perl
+
+# $Id$
+# $URL$
+
+use strict;
+use warnings;
+
+`mkdir -p ./meta`;
+`mkdir -p ./art`;
+
+print "Album name? ";
+my $album = <STDIN>;
+chomp( $album );
+
+print "Artist? ";
+my $artist = <STDIN>;
+chomp( $artist );
+
+print "Number of tracks? ";
+my $numtr = <STDIN>;
+chomp( $numtr );
+
+print "Year? ";
+my $year = <STDIN>;
+chomp( $year );
+
+foreach my $t ( 1 .. $numtr ) {
+  my $track = sprintf '%02d' , $t;
+  open( OUT , '>' , "./meta/1-$track-meta.yml" )
+    or die( $! );
+  print OUT <<EOF;
+---
+album: $album
+artist:
+  - $artist
+disk: 1
+genre:
+  - Unclassified
+  - Vinyl
+numTracks: $numtr
+title: TRACK $t
+track: $track
+year: $year
+EOF
+  close( OUT );
+  print "Wrote file for track $t/$numtr\n";
+}
