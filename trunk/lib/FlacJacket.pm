@@ -145,8 +145,10 @@ sub Id3ToYAML {
 # MakeCover
 sub MakeCover {
   my $file = shift;
-  my $size = 200;
-
+  my %outputs = ( jpg => 200 , 
+                  bmp => 100 ,
+                );
+  
   my @potential_files = qw|
                             ./art/cover-front
                             ./art/insert-front
@@ -165,10 +167,12 @@ sub MakeCover {
   die "Can't seem to locate a cover graphic"
     unless $real_file;
     
-  my $p = Image::Magick->new;
-  $p->Read( $real_file );
-  $p->Scale( geometry => $size );
-  $p->Write( './cover.jpg' );
+  foreach my $ext ( keys %outputs ) {
+    my $p = Image::Magick->new;
+    $p->Read( $real_file );
+    $p->Scale( geometry => $outputs{$ext} );
+    $p->Write( "./cover.$ext" );
+  }
   
 } #/MakeCover
 
