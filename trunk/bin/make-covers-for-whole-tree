@@ -1,0 +1,22 @@
+#! /bin/sh
+
+# $Id$
+# $URL$
+
+MAKECOVER=`which make-cover 2>/dev/null`;
+if [ "x$MAKECOVER" = "x" ]; then
+    echo "Can't find 'make-cover' in \$PATH"
+    exit 1
+fi
+
+echo "Are you sure you want to do this? It's probably going to take a long time...";
+read
+
+for j in flac mp3 ; do
+    for i in /music/files/$j/*/* ; do 
+        echo "making cover in DIR: $i"
+        cd $i
+        $MAKECOVER
+    done
+done
+cd
