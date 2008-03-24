@@ -43,7 +43,6 @@ sub ApplyTagsToFlac {
   my @options = (
     "--import-picture-from=./cover.jpg"         ,
     "--set-tag=\"ALBUM=$tags->{album}\""          ,
-    "--set-tag=\"DISCNUMBER=$tags->{disk}\""      ,
     "--set-tag=\"TITLE=$tags->{title}\""          ,
     "--set-tag=\"TRACKNUMBER=$tags->{track}\""    ,
     "--set-tag=\"TRACKTOTAL=$tags->{numTracks}\"" ,
@@ -51,7 +50,12 @@ sub ApplyTagsToFlac {
   );
   foreach ( @{ $tags->{artist} } ) { push @options , "--set-tag=\"ARTIST=$_\"" }
   foreach ( @{ $tags->{genre} }  ) { push @options , "--set-tag=\"GENRE=$_\""  }
-  
+
+  if ( $tags->{disk} ) {
+    push @options ,
+      "--set-tag=\"DISCNUMBER=$tags->{disk}\"";
+  }
+    
   my $options = join ' ' , @options;
   my $ret2 = system "metaflac $options $file";
   return -2 if $ret2;
@@ -66,7 +70,7 @@ sub ApplyTagsToMp3 {
 
   my $ret1 = system "eyeD3 --remove-all $file 2>/dev/null >/dev/null";
   return -1 if $ret1;
-    
+
   my $artist = join '|' , @{ $tags->{artist} };
   my $genre  = join '|' , @{ $tags->{genre} };
   my @options = (
@@ -80,6 +84,10 @@ sub ApplyTagsToMp3 {
     "--track-total=\"$tags->{numTracks}\""  ,
     "--year=\"$tags->{year}\""              ,
   );
+  if ( $tags->{disk} ) {
+    push @options , 
+      "--set-text-frame=\"TPOS:$tags->{disk}\"" ;
+  }
 
   my $options = join ' ' , @options;
   my $ret2 = system "eyeD3 $options $file 2>/dev/null >/dev/null";
