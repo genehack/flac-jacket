@@ -34,7 +34,6 @@ foreach my $t ( 1 .. $numtr ) {
 album: $album
 artist:
   - $artist
-disk: 1
 genre:
   - Unclassified
   - Vinyl
