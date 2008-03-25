@@ -1,47 +1,70 @@
-#! /usr/bin/perl
+#! /usr/bin/ruby -w
 
 # $Id$
 # $URL$
 
-use strict;
-use warnings;
+def prompt_and_chomp (prompt) 
+  print prompt
+  response = gets
+  response.chomp!
+end
 
-`mkdir -p ./meta`;
-`mkdir -p ./art`;
+subdirs = %w{ ./meta ./art }
 
-print "Album name? ";
-my $album = <STDIN>;
-chomp( $album );
+subdirs.each do |dir|
+  Dir.mkdir( dir ) unless File.exist?( dir )
+end
 
-print "Artist? ";
-my $artist = <STDIN>;
-chomp( $artist );
+album  = prompt_and_chomp( "Album name? " )
+artist = prompt_and_chomp( "Artist? " )
+genre  = prompt_and_chomp( "Genre? " )
+year   = prompt_and_chomp( "Year? " )
+disks  = prompt_and_chomp( "Number of disks? " )
 
-print "Number of tracks? ";
-my $numtr = <STDIN>;
-chomp( $numtr );
+1.upto(disks.to_i) do |disk|
 
-print "Year? ";
-my $year = <STDIN>;
-chomp( $year );
+  tracks = prompt_and_chomp( "Number of tracks for disk #{disk}? " )
 
-foreach my $t ( 1 .. $numtr ) {
-  my $track = sprintf '%02d' , $t;
-  open( OUT , '>' , "./meta/1-$track-meta.yml" )
-    or die( $! );
-  print OUT <<EOF;
+  1.upto(tracks.to_i) do |track|
+
+    track = sprintf '%02d' , track
+
+    # yes, this is horrible. originally, i generated a hash and then
+    # used yaml.rb to produce the YAML via hash.to_yaml(). however,
+    # you can't make yaml.rb sort the keys in the YAML it outputs (see
+    # <http://rubyforge.org/tracker/?group_id=426&atid=1698&func=detail&aid=19082>,
+    # and since the whole point is to turn around and have a human
+    # edit this file, it's nice to have things in a consistent
+    # order. so we fudge with this kerfackta mess. <sigh>
+
+    File.open( "./meta/#{disk}-#{track}-meta.yml" , 'w' ) do |file|
+      file.puts <<YAML
 ---
-album: $album
+album: #{album}
 artist:
-  - $artist
+YAML
+      artist.split(/\s*\|\s*/).each { |a| file.puts "  - #{a}" }
+
+      file.puts "disk: #{disk}" if disks.to_i > 1
+
+      file.puts <<YAML
 genre:
   - Unclassified
-  - Vinyl
-numTracks: $numtr
-title: TRACK $t
-track: $track
-year: $year
-EOF
-  close( OUT );
-  print "Wrote file for track $t/$numtr\n";
-}
+YAML
+
+      genre.split(/\s*\|\s*/).each { |g| file.puts "  - #{g}" }
+
+      file.puts <<YAML
+numTracks: #{tracks}
+title: TITLE FOR DISK #{disk} TRACK #{track}
+track: #{track}
+year: #{year}
+YAML
+
+    end
+      
+    puts "Wrote file for track #{track}/#{tracks}";
+  end
+end
+
+
