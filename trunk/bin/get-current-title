@@ -1,0 +1,41 @@
+#! /usr/bin/perl
+
+use strict;
+use warnings;
+
+use Net::Telnet;
+use URI::Escape;
+
+my $squeezecenter_host = 'jukebox';
+my $squeezecenter_port = '9090';
+
+my $player = shift || die "Need player name";
+
+my %tokens = map { $_ => '' } qw/ title album artist /;
+
+my $juke = Net::Telnet->new(
+  Host       => $squeezecenter_host ,
+  Port       => $squeezecenter_port ,
+  Telnetmode => 0                   , 
+);
+
+foreach my $token ( keys %tokens ) {
+  $juke->print("$player $token ?");
+
+  # we're going to get back something that looks like this:
+  
+  # 192.168.1.17 title The%20W.A.N.D.
+
+  # the first part may or may not be the same as $player -- we're just going to ignore that
+  # the second part _will_ eq $token
+  # the third part -- everything after $token -- is URL encoded and what we want
+
+  # so grab that third part, remove the URL encoding, and save it
+
+  ( $tokens{$token} ) = $juke->getline =~ / $token (.*)$/;
+  $tokens{$token} = uri_unescape( $tokens{$token} );
+}
+
+print qq|"$tokens{title}" from _$tokens{album}_ by $tokens{artist}\n|;
+
+$juke->close
