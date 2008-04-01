@@ -11,7 +11,7 @@ my $squeezecenter_port = '9090';
 
 my $player = shift || die "Need player name";
 
-my %tokens = map { $_ => '' } qw/ title album artist /;
+my %tokens = map { $_ => '' } qw/ title path album artist /;
 
 my $juke = Net::Telnet->new(
   Host       => $squeezecenter_host ,
@@ -36,6 +36,9 @@ foreach my $token ( keys %tokens ) {
   $tokens{$token} = uri_unescape( $tokens{$token} );
 }
 
-print qq|"$tokens{title}" from _$tokens{album}_ by $tokens{artist}\n|;
+my( $track ) = $tokens{path} =~ m|/\d-(\d\d)-|;
+$track = sprintf "%d" , $track;
+
+print qq|"$tokens{title}", track $track from _$tokens{album}_ by $tokens{artist}\n|;
 
 $juke->close
