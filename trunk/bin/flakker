@@ -28,13 +28,13 @@ my $genre = getGenre();
 if ( $count eq 1 ) {
   print "\nReady to rip disk. Hit <RET> when disk is loaded.";
   <STDIN>;
-  FlacJacket::RipDisk( 1 , $year , $genre );
+  FlacJacket::RipDisk( 1 , $count , $year , $genre );
 }
 else {
   foreach my $disk ( 1 .. $count ) {
     print "\nReady to rip disk #$disk. Hit <RET> when disk is loaded.";
     <STDIN>;
-    FlacJacket::RipDisk( $disk , $year , $genre );      
+    FlacJacket::RipDisk( $disk , $count , $year , $genre );      
   }
 }
 

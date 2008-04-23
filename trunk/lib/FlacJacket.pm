@@ -213,7 +213,6 @@ sub ParseSingleArtistCD {
     my $trackNum = ( sprintf "%02d" , $href->{Num} );
     
     my $track = {
-      disk      => $disk         ,
       title     => $href->{Name} ,
       track     => $trackNum     ,
       numTracks => $numTracks    ,
@@ -263,7 +262,6 @@ sub ParseMultiArtistCD {
     else                          { @artist = ( $href->{Artist} )          }
     
     my $track = {
-      disk      => $disk         ,
       title     => $href->{Name} ,
       track     => $trackNum     ,
       numTracks => $numTracks    ,
@@ -283,7 +281,7 @@ sub ParseMultiArtistCD {
 
 # RenameFlacsFromFile
 sub RenameFlacsFromFile {
-  my( $file , $disk , $year , $genre ) = ( @_ );
+  my( $file , $disk , $count , $year , $genre ) = ( @_ );
 
   croak( "no '$file' file" ) unless (-e "./$file" );
   my $data = XMLin( $file );
@@ -300,6 +298,7 @@ sub RenameFlacsFromFile {
   mkpath "../meta" unless -d "../meta";
 
   foreach my $track ( @$tracks ) {
+    $track->{disk} = $disk if $count > 1;
     my $file = sprintf "../meta/%1d-%02d-meta.yml" , $disk , $track->{track};
     DumpFile( $file , $track );
 
@@ -379,7 +378,7 @@ sub RetagCurrentDirectory {
 
 # RipDisk
 sub RipDisk {
-  my( $disk , $year , $genre ) = ( @_ );
+  my( $disk , $count , $year , $genre ) = ( @_ );
 
   my $dir = "./disk-$disk";
   mkpath $dir
@@ -398,7 +397,7 @@ sub RipDisk {
   my $file = 'audio.cdindex';
   print "\n\n\n\nAbout to parse '$file' file and rename files -- hit <RET> to continue";
   <STDIN>;
-  RenameFlacsFromFile( $file , $disk , $year , $genre );
+  RenameFlacsFromFile( $file , $disk , $count , $year , $genre );
 
   unlink $file;
   chdir( '..' );
