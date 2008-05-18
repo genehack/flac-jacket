@@ -161,6 +161,7 @@ sub MakeCover {
                             ./art/cover-front
                             ./art/insert-front
                             ./art/disk
+                            ./art/cover
                           |;
   if ( $file ) {
     unshift @potential_files , $file;
