@@ -52,7 +52,7 @@ genre:
   - Unclassified
 YAML
 
-      genre.split(/\s*\|\s*/).each { |g| file.puts "  - #{g}" }
+      genre.split(/\s*\|\s*/).each { |g| file.puts "  - #{g}" if g != 'Unclassified' }
 
       file.puts <<YAML
 numTracks: #{tracks}
