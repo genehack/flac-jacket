@@ -23,7 +23,7 @@ for i in *.flac ; do
     if [ -e $i ]; then
         echo $i
         $FLAC -cds $i | $LAME -Sh - ${i%.flac}.mp3
-        $RM -v $i
+        $RM $i
     fi
 done
 
@@ -32,4 +32,4 @@ if [ -e meta ]; then
     retag
 fi
 
-$RM -rfv art meta cover.*
+$RM -rf art meta cover.*
