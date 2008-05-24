@@ -26,13 +26,17 @@ croak "no cover" unless -e "./cover.jpg";
 move( "cover.jpg" , "art/insert-front.jpg" );
 FlacJacket::MakeCover();
 
-foreach my $file ( glob '*.mp3' ) {
-  my $new_file = FlacJacket::SanitizeFileName( $file );
-  $new_file = "1-$new_file";
-  
-  move( $file , $new_file ) or die "move failed";
-  $file = $new_file;
 
+
+foreach my $file ( glob '*.mp3' ) {
+  # conditional rename
+  unless ( $file =~ /^1-/ ) {
+    my $new_file = FlacJacket::SanitizeFileName( $file );
+    $new_file = "1-$new_file";
+    move( $file , $new_file ) or die "mv $file $new_file failed";
+    $file = $new_file;
+  }
+  
   my $tags = FlacJacket::Id3ToYAML( $file );
   
   FlacJacket::ApplyTagsToFile( $tags , $file );
