@@ -133,7 +133,6 @@ sub Id3ToYAML {
   my $yaml;
   $yaml->{album}     = $tag->{ALBUM};
   $yaml->{artist}    = \@artists;
-  $yaml->{disk}      = 1;
   $yaml->{genre}     = \@genres;
   $yaml->{numTracks} = $count;
   $yaml->{title}     = $tag->{TITLE};
