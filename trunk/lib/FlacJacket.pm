@@ -123,6 +123,13 @@ sub Id3ToYAML {
   if ( $genre =~ /\|/ ) { @genres = split /\|/ , $genre }
   else                 { @genres = ( $genre ) }
 
+  my( $track , $numTracks );
+  $track = $tag->{TRACKNUM};
+  if ( $track =~ m|^(\d+)/(\d+)$| ) {
+    ( $track , $numTracks ) = ( $1 , $2 );
+  }
+  else {  $numTracks = $count }
+
   # if we're converting over an existing MP3 dir, we want everything to be
   # unclassified, so it has to be listened to at least once to get tagged
   # properly
@@ -134,9 +141,9 @@ sub Id3ToYAML {
   $yaml->{album}     = $tag->{ALBUM};
   $yaml->{artist}    = \@artists;
   $yaml->{genre}     = \@genres;
-  $yaml->{numTracks} = $count;
+  $yaml->{numTracks} = $numTracks;
   $yaml->{title}     = $tag->{TITLE};
-  $yaml->{track}     = $tag->{TRACKNUM};
+  $yaml->{track}     = $track;
   $yaml->{year}      = $tag->{YEAR};
   
   my( $prefix ) = $file =~ /^\d-(\d\d)-/ 
