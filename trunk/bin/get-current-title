@@ -3,45 +3,29 @@
 use strict;
 use warnings;
 
-use Net::Telnet;
-use URI::Escape;
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+use Squeezebox;
 
-my $squeezecenter_host = 'jukebox';
-my $squeezecenter_port = '9090';
+my $player = shift || Squeezebox::get_player_from_current_host();
 
-my $player = shift || die "Need player name";
+unless ( $player ) {
+  print qq|No player running.|;
+  exit;
+}
 
 my %tokens = map { $_ => '' } qw/ title path album artist /;
 
-my $juke = Net::Telnet->new(
-  Host       => $squeezecenter_host ,
-  Port       => $squeezecenter_port ,
-  Telnetmode => 0                   , 
-);
-
 foreach my $token ( keys %tokens ) {
-  $juke->print("$player $token ?");
-
-  # we're going to get back something that looks like this:
-  
-  # 192.168.1.17 title The%20W.A.N.D.
-
-  # the first part may or may not be the same as $player -- we're just going to ignore that
-  # the second part _will_ eq $token
-  # the third part -- everything after $token -- is URL encoded and what we want
-
-  # so grab that third part, remove the URL encoding, and save it
-
-  ( $tokens{$token} ) = $juke->getline =~ / $token (.*)$/;
-  $tokens{$token} = uri_unescape( $tokens{$token} );
+  $tokens{$token} = Squeezebox::fetch_token( $player , $token );
 }
 
-if ( ! $tokens{path} ) {
+unless ( $tokens{path} ) {
   print qq|Stopped.|;
+  exit;
 }
-elsif ( $tokens{path} eq '?' ) {
-  print qq|Nothing currently playing.|;
-}
+
+if ( $tokens{path} eq '?' ) { print qq|Nothing currently playing.| }
 else {
   my( $track ) = $tokens{path} =~ m|/\d-(\d\d)-|;
   $track = sprintf "%d" , $track;
@@ -49,4 +33,3 @@ else {
   print qq|$track - "$tokens{title}" - _$tokens{album}_ - $tokens{artist}\n|;
 }
 
-$juke->close
