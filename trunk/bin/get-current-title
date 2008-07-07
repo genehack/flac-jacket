@@ -27,9 +27,14 @@ unless ( $tokens{path} ) {
 
 if ( $tokens{path} eq '?' ) { print qq|Nothing currently playing.| }
 else {
-  my( $track ) = $tokens{path} =~ m|/\d-(\d\d)-|;
-  $track = sprintf "%d" , $track;
+  my $path = $tokens{path};
+  if ( my( $track ) = $path =~ m|/\d-(\d\d)-| ) {
+    $track = sprintf "%d" , $track;
 
-  print qq|$track - "$tokens{title}" - _$tokens{album}_ - $tokens{artist}\n|;
+    print qq|$track - "$tokens{title}" - _$tokens{album}_ - $tokens{artist}|;
+  }
+  else {
+    print qq|$path|; 
+  }
 }
 
