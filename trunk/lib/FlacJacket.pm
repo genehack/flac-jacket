@@ -354,7 +354,7 @@ sub RetagCurrentDirectory {
     }
     else {
       print "FIXING FILE NAME for $prefix-$name\n";
-      if ( my @files = glob( "$prefix-*" )) {
+      if ( my @files = glob( "$prefix*" )) {
         foreach my $file ( @files ) {
           my $suffix = ( split /\./ , $file )[-1];
           my $dest = "$prefix-$name.$suffix";
