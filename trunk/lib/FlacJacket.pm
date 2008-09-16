@@ -1,8 +1,3 @@
-#! /usr/bin/perl
-
-# $Id$
-# $URL$
-
 package FlacJacket;
 
 use strict;
