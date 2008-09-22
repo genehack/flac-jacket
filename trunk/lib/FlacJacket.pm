@@ -371,7 +371,7 @@ sub RetagCurrentDirectory {
       `metaflac --add-replay-gain *.flac`;
     }
     if ( glob( "*.mp3" )) {
-      `mp3gain -akp *.mp3`;
+      `mp3gain -a -k -p *.mp3`;
     }
   }
   
