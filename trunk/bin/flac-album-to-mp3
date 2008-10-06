@@ -2,7 +2,7 @@
 
 FLAC=/usr/bin/flac
 LAME=/usr/bin/lame
-RM=/usr/bin/rm
+RM=/bin/rm
 
 if [ ! -e $FLAC ]; then
     echo "No $FLAC!"
