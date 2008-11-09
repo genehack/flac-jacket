@@ -1,4 +1,4 @@
-#! /opt/perl/bin/perl 
+#! /opt/perl/bin/perl
 
 # $Id$
 # $URL$
@@ -32,13 +32,13 @@ foreach my $file ( glob '*.mp3' ) {
   # conditional rename
   unless ( $file =~ /^1-/ ) {
     my $new_file = FlacJacket::SanitizeFileName( $file );
-    $new_file =~ s/^(\d\d)\s*(.*)$/1-$1-$2/;
+    $new_file =~ s/^(\d\d)\s*-?\s*(.*)$/1-$1-$2/;
     move( $file , $new_file ) or die "mv $file $new_file failed";
     $file = $new_file;
   }
-  
+
   my $tags = FlacJacket::Id3ToYAML( $file );
-  
+
   FlacJacket::ApplyTagsToFile( $tags , $file );
 }
 
