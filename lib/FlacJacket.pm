@@ -19,7 +19,8 @@ sub ApplyTagsToFile {
 
   my $ret;
   if    ( $file =~ /.flac$/ ) { $ret = ApplyTagsToFlac( $tags , $file ) }
-  elsif ( $file =~ /.mp3$/ )  { $ret = ApplyTagsToMp3( $tags , $file )  }
+  elsif ( $file =~ /.m4a$/  ) { $ret = ApplyTagsToAlac( $tags , $file ) }
+  elsif ( $file =~ /.mp3$/  ) { $ret = ApplyTagsToMp3( $tags , $file )  }
   else                        { croak "'$file' isn't an MP3 or FLAC file\n" }
 
   if    ( $ret == -1 ) { carp "ERROR removing tags from $file" }
@@ -28,13 +29,43 @@ sub ApplyTagsToFile {
   return;
 } #/ApplyTagsToFile
 
+# ApplyTagsToAlac
+sub ApplyTagsToAlac {
+  my( $tags , $file ) = ( @_ );
+
+  my $ret1 = system "AtomicParsley $file -metaEnema";
+  return -1 if $ret1;
+
+  my @options = (
+                 "--title \"$tags->{title}\"" ,
+                 "--album \"$tags->{album}\"" ,
+                 "--tracknum $tags->{track}/$tags->{numTracks}" ,
+                 "--year $tags->{year}" ,
+                 "--artwork ./cover.jpg"  ,
+                );
+  my $artist = join '/' , @{ $tags->{artist} };
+  push @options , "--artist \"$artist\"";
+  my $genre  = join '/' , @{ $tags->{genre} };
+  push @options , "--genre \"$genre\"";
+
+  if( $tags->{disk} ) {
+    push @options , "--disk $tags->{disk}";
+  }
+
+  my $options = join ' ' , @options;
+  my $ret2 = system "AtomicParsley $file $options";
+  return -2 if $ret2;
+
+  return 0;
+} #/ApplyTagsToAlac
+
 # ApplyTagsToFlac
 sub ApplyTagsToFlac {
   my( $tags , $file ) = ( @_ );
 
   my $ret1 = system "metaflac --remove-all-tags $file";
   return -1 if $ret1;
-    
+
   my @options = (
     "--import-picture-from=./cover.jpg"         ,
     "--set-tag=\"ALBUM=$tags->{album}\""          ,
@@ -50,13 +81,13 @@ sub ApplyTagsToFlac {
     push @options ,
       "--set-tag=\"DISCNUMBER=$tags->{disk}\"";
   }
-    
+
   my $options = join ' ' , @options;
   my $ret2 = system "metaflac $options $file";
   return -2 if $ret2;
-    
+
   return 0;
-  
+
 } #/ApplyTagsToFlac
 
 # ApplyTagsToMp3
@@ -80,16 +111,16 @@ sub ApplyTagsToMp3 {
     "--year=\"$tags->{year}\""              ,
   );
   if ( $tags->{disk} ) {
-    push @options , 
+    push @options ,
       "--set-text-frame=\"TPOS:$tags->{disk}\"" ;
   }
 
   my $options = join ' ' , @options;
   my $ret2 = system "eyeD3 $options $file 2>/dev/null >/dev/null";
   return -2 if $ret2;
-  
+
   return 0;
-      
+
 } #/ApplyTagsToMp3
 
 # Id3ToYAML
@@ -99,7 +130,7 @@ sub Id3ToYAML {
 
   my @count = glob '*.mp3' ;
   my $count = @count;
-  
+
   my $tag = get_mp3tag( $file )
     or croak "Can't get ID3 tag info from '$file'";
 
@@ -112,7 +143,7 @@ sub Id3ToYAML {
   my @artists;
   if ( $artist =~ /\|/ ) { @artists = split /\|/ , $artist }
   else                  { @artists = ( $artist ) }
-  
+
   my $genre  = $tag->{GENRE} || 'Unclassified';
   my @genres;
   if ( $genre =~ /\|/ ) { @genres = split /\|/ , $genre }
@@ -131,7 +162,7 @@ sub Id3ToYAML {
   unless ( any { $_ eq 'Unclassified' } @genres) {
     unshift @genres , 'Unclassified';
   }
-  
+
   my $yaml;
   $yaml->{album}     = $tag->{ALBUM};
   $yaml->{artist}    = \@artists;
@@ -140,24 +171,24 @@ sub Id3ToYAML {
   $yaml->{title}     = $tag->{TITLE};
   $yaml->{track}     = $track;
   $yaml->{year}      = $tag->{YEAR};
-  
-  my( $prefix ) = $file =~ /^\d-(\d\d)-/ 
+
+  my( $prefix ) = $file =~ /^\d-(\d\d)-/
     or croak "can't get prefix from $file\n";
   my $out = "meta/1-$prefix-meta.yml";
   DumpFile( $out , $yaml );
 
   my $return = LoadFile( $out );
   return $return;
-  
+
 } #/Id3ToYAML
 
 # MakeCover
 sub MakeCover {
   my $file = shift;
-  my %outputs = ( jpg => 200 , 
+  my %outputs = ( jpg => 200 ,
                   bmp => 100 ,
                 );
-  
+
   my @potential_files = qw|
                             ./art/cover-front
                             ./art/insert-front
@@ -167,23 +198,23 @@ sub MakeCover {
   if ( $file ) {
     unshift @potential_files , $file;
   }
-  
+
   my $real_file;
   foreach ( @potential_files ) {
     if    ( -e "$_.png" ) { $real_file = "$_.png" ; last }
     elsif ( -e "$_.jpg" ) { $real_file = "$_.jpg" ; last }
   }
-  
+
   die "Can't seem to locate a cover graphic"
     unless $real_file;
-    
+
   foreach my $ext ( keys %outputs ) {
     my $p = Image::Magick->new;
     $p->Read( $real_file );
     $p->Scale( geometry => $outputs{$ext} );
     $p->Write( "./cover.$ext" );
   }
-  
+
 } #/MakeCover
 
 # ParseSingleArtistCD
@@ -195,7 +226,7 @@ sub ParseSingleArtistCD {
 
   my $artist    = $data->{SingleArtistCD}{Artist};
   my @artist;
-  if ( $artist =~ /\|/ ) { @artist = split /\|/ , $artist } 
+  if ( $artist =~ /\|/ ) { @artist = split /\|/ , $artist }
   else                  { @artist = ( $artist ) }
 
   my @genre;
@@ -209,11 +240,11 @@ sub ParseSingleArtistCD {
   else {
     @input_tracks = ( $data->{SingleArtistCD}{Track} );
   }
-  
+
   my @tracks;
   foreach my $href ( @input_tracks ) {
     my $trackNum = ( sprintf "%02d" , $href->{Num} );
-    
+
     my $track = {
       title     => $href->{Name} ,
       track     => $trackNum     ,
@@ -231,7 +262,7 @@ sub ParseSingleArtistCD {
         or die( "can't parse ",$href->{Name},"\n" );
       $track->{title}  = $title;
       my @artist;
-      if ( $artist =~ /\|/ ) { @artist = split /\|/ , $artist } 
+      if ( $artist =~ /\|/ ) { @artist = split /\|/ , $artist }
       else                  { @artist = ( $artist ) }
       $track->{artist} = \@artist
     }
@@ -240,7 +271,7 @@ sub ParseSingleArtistCD {
   }
 
   return \@tracks;
-  
+
 } #/ParseSingleArtistCD
 
 
@@ -262,7 +293,7 @@ sub ParseMultiArtistCD {
     my @artist;
     if ( $href->{Artist} =~ /\|/ ) { @artist = split /\|/ , $href->{Artist} }
     else                          { @artist = ( $href->{Artist} )          }
-    
+
     my $track = {
       title     => $href->{Name} ,
       track     => $trackNum     ,
@@ -272,12 +303,12 @@ sub ParseMultiArtistCD {
       artist    => \@artist      ,
       album     => $album        ,
     };
-    
+
     push @tracks,  $track;
   }
 
   return \@tracks;
-  
+
 } #/ParseMultiArtistCD
 
 
@@ -296,7 +327,7 @@ sub RenameFlacsFromFile {
     $tracks = ParseMultiArtistCD( $data , $disk , $year , $genre );
   }
   else { croak "Can't find '*ArtistCD' element!\n" }
-  
+
   mkpath "../meta" unless -d "../meta";
 
   foreach my $track ( @$tracks ) {
@@ -308,7 +339,7 @@ sub RenameFlacsFromFile {
     my $dest = sprintf "../%1d-%02d-%s.flac" ,
       $disk , $track->{track} , SanitizeFileName( $track->{title} );
     move( $flac , $dest );
-  }  
+  }
 } #/RenameFlacsFromFile
 
 # RetagCurrentDirectory
@@ -317,7 +348,7 @@ sub RetagCurrentDirectory {
   my $change = 0;
 
   my( $album , $album_warning );
-    
+
   foreach my $meta ( glob 'meta/*.yml' ) {
 
     my( $prefix ) = $meta =~ m|/(\d-\d\d)-|
@@ -325,7 +356,7 @@ sub RetagCurrentDirectory {
 
     my( $disk ) = $prefix =~ m|^(\d)-|
       or croak "Can't get disk number from '$prefix' (from '$meta')\n";
-    
+
     my $tags = LoadFile( $meta );
 
     if ( $album->[$disk] ) {
@@ -374,7 +405,7 @@ sub RetagCurrentDirectory {
       `mp3gain -a -k -p *.mp3`;
     }
   }
-  
+
 } #/RetagCurrentDirectory
 
 
@@ -386,7 +417,7 @@ sub RipDisk {
   mkpath $dir
     or die "Couldn't make ./$dir ($!)";
   chdir $dir;
-  
+
   # FIXME wtf portable code much?
   `cdda2wav -D/dev/sg2 -L 0 -max -paranoia -bulk track`;
   unlink 'audio.cddb';
@@ -408,7 +439,7 @@ sub RipDisk {
   print "\n\n\n\nAbout to tag files -- cover.jpg MUST EXIST! -- edit meta/*yml as needed and hit <RET> to continue";
   <STDIN>;
   RetagCurrentDirectory();
-    
+
 } #/RipDisk
 
 # SanitizeFileName
