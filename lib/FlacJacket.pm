@@ -7,6 +7,7 @@ use Carp;
 use Cwd;
 use File::Copy;
 use File::Path;
+use File::Remove qw/ remove /;
 use Image::Magick;
 use List::MoreUtils  qw/ any /;
 use MP3::Info;
@@ -33,7 +34,7 @@ sub ApplyTagsToFile {
 sub ApplyTagsToAlac {
   my( $tags , $file ) = ( @_ );
 
-  my $ret1 = system "AtomicParsley $file -metaEnema";
+  my $ret1 = system "AtomicParsley $file --metaEnema -W >/dev/null";
   return -1 if $ret1;
 
   my @options = (
@@ -53,8 +54,10 @@ sub ApplyTagsToAlac {
   }
 
   my $options = join ' ' , @options;
-  my $ret2 = system "AtomicParsley $file $options";
+  my $ret2 = system "AtomicParsley $file $options -W >/dev/null";
   return -2 if $ret2;
+
+  remove( '*-temp-*' );
 
   return 0;
 } #/ApplyTagsToAlac
