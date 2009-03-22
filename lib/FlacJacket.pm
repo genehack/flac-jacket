@@ -3,6 +3,7 @@ package FlacJacket;
 use strict;
 use warnings;
 
+use Audio::M4P::QuickTime;
 use Carp;
 use Cwd;
 use File::Copy;
@@ -126,6 +127,21 @@ sub ApplyTagsToMp3 {
 
 } #/ApplyTagsToMp3
 
+# M4aToYAML
+sub M4aToYAML {
+  my $file = shift
+    or croak "Need a file name for M4aToYAML()";
+
+  my @count = glob '*.m4a';
+  my $count = @count;
+
+  my $m4a = new Audio::M4P::QuickTime(file => $file );
+  my $tags = $m4a->GetMetaInfo;
+
+  return TagHashToYAML( $file , $count , $tags );
+
+}
+
 # Id3ToYAML
 sub Id3ToYAML {
   my $file = shift
@@ -137,6 +153,14 @@ sub Id3ToYAML {
   my $tag = get_mp3tag( $file )
     or croak "Can't get ID3 tag info from '$file'";
 
+  return TagHashToYAML( $file , $count , $tag );
+
+} #/Id3ToYAML
+
+# TagHashToYAML
+sub TagHashToYAML {
+  my( $file , $count , $tag ) = @_;
+
   foreach ( qw/ ALBUM ARTIST TITLE TRACKNUM YEAR / ) {
     croak "Didn't get value for '$_'\n"
       unless $tag->{$_};
@@ -144,13 +168,13 @@ sub Id3ToYAML {
 
   my $artist = $tag->{ARTIST};
   my @artists;
-  if ( $artist =~ /\|/ ) { @artists = split /\|/ , $artist }
-  else                  { @artists = ( $artist ) }
+  if ( $artist =~ /[|\/]/ ) { @artists = split /[|\/]/ , $artist }
+  else                      { @artists = ( $artist ) }
 
   my $genre  = $tag->{GENRE} || 'Unclassified';
   my @genres;
-  if ( $genre =~ /\|/ ) { @genres = split /\|/ , $genre }
-  else                 { @genres = ( $genre ) }
+  if ( $genre =~ /[|\/]/ ) { @genres = split /[|\/]/ , $genre }
+  else                     { @genres = ( $genre ) }
 
   my( $track , $numTracks );
   $track = $tag->{TRACKNUM};
@@ -183,7 +207,7 @@ sub Id3ToYAML {
   my $return = LoadFile( $out );
   return $return;
 
-} #/Id3ToYAML
+}
 
 # MakeCover
 sub MakeCover {

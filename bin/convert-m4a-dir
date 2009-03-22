@@ -1,0 +1,41 @@
+#! /opt/perl/bin/perl
+
+use strict;
+use warnings;
+
+use Carp;
+use File::Copy;
+use File::Path;
+
+use FindBin;
+use lib "$FindBin::RealBin/../lib";
+use FlacJacket;
+
+foreach ( qw| art meta |) {
+  if ( -e $_ ) {
+    next if -d $_;
+    croak "creation of '$_' dir blocked";
+  }
+  mkpath $_;
+}
+
+croak "no cover" unless -e "./cover.jpg";
+move( "cover.jpg" , "art/insert-front.jpg" );
+FlacJacket::MakeCover();
+
+foreach my $file ( glob '*.m4a' ) {
+  # conditional rename
+  unless ( $file =~ /^1-/ ) {
+    my $new_file = FlacJacket::SanitizeFileName( $file );
+    $new_file =~ s/^(\d\d)\s*-?\s*(.*)$/1-$1-$2/;
+    move( $file , $new_file ) or die "mv $file $new_file failed";
+    $file = $new_file;
+  }
+
+  my $tags = FlacJacket::M4aToYAML( $file );
+
+#  FlacJacket::ApplyTagsToFile( $tags , $file );
+}
+
+
+
