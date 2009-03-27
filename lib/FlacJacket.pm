@@ -35,8 +35,16 @@ sub ApplyTagsToFile {
 sub ApplyTagsToAlac {
   my( $tags , $file ) = ( @_ );
 
-  my $ret1 = system "AtomicParsley $file --metaEnema -W >/dev/null";
+  my( $file_prefix ) = $file =~ /^(.*)\.m4a$/
+    or die "Can't find file_prefix from $file\n";
+
+  my $ret1 = system "AtomicParsley $file --metaEnema >/dev/null";
   return -1 if $ret1;
+
+  my( $temp_file ) = glob "${file_prefix}-temp-*"
+    or die "Can't find temp file with prefix $file_prefix";
+  move( $temp_file , $file )
+    or die "Failed to rename temp file";
 
   my @options = (
                  "--title \"$tags->{title}\"" ,
@@ -55,10 +63,13 @@ sub ApplyTagsToAlac {
   }
 
   my $options = join ' ' , @options;
-  my $ret2 = system "AtomicParsley $file $options -W >/dev/null";
+  my $ret2 = system "AtomicParsley $file $options >/dev/null";
   return -2 if $ret2;
 
-  remove( '*-temp-*' );
+  ( $temp_file ) = glob "${file_prefix}-temp-*"
+     or die "Can't find temp file with prefix $file_prefix";
+  move( $temp_file , $file )
+    or die "Failed to rename temp file";
 
   return 0;
 } #/ApplyTagsToAlac
