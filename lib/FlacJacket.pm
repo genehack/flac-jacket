@@ -62,6 +62,10 @@ sub ApplyTagsToAlac {
     push @options , "--disk $tags->{disk}";
   }
 
+  if ( $tags->{compilation} ) {
+    push @options , "--compilation 1";
+  }
+
   my $options = join ' ' , @options;
   my $ret2 = system "AtomicParsley $file $options >/dev/null";
   return -2 if $ret2;
