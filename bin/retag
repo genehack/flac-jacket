@@ -1,8 +1,5 @@
 #! /opt/perl/bin/perl 
 
-# $Id$
-# $URL$
-
 use strict;
 use warnings;
 
