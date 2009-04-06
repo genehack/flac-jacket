@@ -3,6 +3,8 @@ package FlacJacket;
 use strict;
 use warnings;
 
+use version; our $VERSION = qv("0.1");
+
 use Audio::M4P::QuickTime;
 use Carp;
 use Cwd;
@@ -390,6 +392,7 @@ sub RenameFlacsFromFile {
 
 # RetagCurrentDirectory
 sub RetagCurrentDirectory {
+  my( $add_gain ) = ( @_ );
 
   my $change = 0;
 
@@ -442,7 +445,7 @@ sub RetagCurrentDirectory {
     }
   }
 
-  if ( $change ) {
+  if ( $change and $add_gain ) {
     print "Applying Replay Gain to album\n";
     if ( glob( "*.flac" )) {
       `metaflac --add-replay-gain *.flac`;

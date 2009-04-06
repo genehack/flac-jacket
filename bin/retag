@@ -1,19 +1,21 @@
 #! /opt/perl/bin/perl 
 
-# $Id$
-# $URL$
-
 use strict;
 use warnings;
 
 use Carp;
+use Getopt::Std;
+
 use YAML  qw/ LoadFile /;
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
 use FlacJacket;
 
+my( $opt_g );
+getopts('g');
+
 croak "No meta information found\n" unless -d './meta';
 croak "No cover art found\n"        unless -e "./cover.jpg";
 
-FlacJacket::RetagCurrentDirectory();
+FlacJacket::RetagCurrentDirectory( $opt_g );
