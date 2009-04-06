@@ -388,6 +388,7 @@ sub RenameFlacsFromFile {
 
 # RetagCurrentDirectory
 sub RetagCurrentDirectory {
+  my( $add_gain ) = ( @_ );
 
   my $change = 0;
 
@@ -440,7 +441,7 @@ sub RetagCurrentDirectory {
     }
   }
 
-  if ( $change ) {
+  if ( $change and $add_gain ) {
     print "Applying Replay Gain to album\n";
     if ( glob( "*.flac" )) {
       `metaflac --add-replay-gain *.flac`;
