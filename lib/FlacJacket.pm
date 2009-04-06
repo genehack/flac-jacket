@@ -3,6 +3,8 @@ package FlacJacket;
 use strict;
 use warnings;
 
+use version; our $VERSION = qv("0.1");
+
 use Audio::M4P::QuickTime;
 use Carp;
 use Cwd;
