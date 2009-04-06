@@ -116,8 +116,8 @@ sub ApplyTagsToMp3 {
   my $ret1 = system "eyeD3 --remove-all $file 2>/dev/null >/dev/null";
   return -1 if $ret1;
 
-  my $artist = join '|' , @{ $tags->{artist} };
-  my $genre  = join '|' , @{ $tags->{genre} };
+  my $artist = join '/' , @{ $tags->{artist} };
+  my $genre  = join '/' , @{ $tags->{genre} };
   my @options = (
     '-2'                                    ,
     "--add-image=./cover.jpg:FRONT_COVER"   ,
@@ -133,6 +133,10 @@ sub ApplyTagsToMp3 {
     push @options ,
       "--set-text-frame=\"TPOS:$tags->{disk}\"" ;
   }
+  if ( $tags->{compilation} ) {
+    push @options , '--set-text-frame="TCMP:1"';
+  }
+
 
   my $options = join ' ' , @options;
   my $ret2 = system "eyeD3 $options $file 2>/dev/null >/dev/null";
