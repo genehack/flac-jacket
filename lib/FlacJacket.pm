@@ -214,7 +214,7 @@ sub TagHashToYAML {
   $yaml->{track}     = $track;
   $yaml->{year}      = $tag->{YEAR};
 
-  my( $prefix ) = $file =~ /^\d-(\d\d)-/
+  my( $prefix ) = $file =~ /^\d-(\d\d+)-/
     or croak "can't get prefix from $file\n";
   my $out = "meta/1-$prefix-meta.yml";
   DumpFile( $out , $yaml );
@@ -393,7 +393,7 @@ sub RetagCurrentDirectory {
 
   foreach my $meta ( glob 'meta/*.yml' ) {
 
-    my( $prefix ) = $meta =~ m|/(\d-\d\d)-|
+    my( $prefix ) = $meta =~ m|/(\d-\d\d+)-|
       or croak "Can't get prefix from '$meta'\n";
 
     my( $disk ) = $prefix =~ m|^(\d)-|
