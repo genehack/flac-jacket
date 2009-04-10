@@ -440,7 +440,8 @@ sub RetagCurrentDirectory {
         }
       }
       else {
-        croak "COULDN'T FIND A FILE TO FIX!";
+        my $cwd = cwd();
+        croak "COULDN'T FIND A FILE TO FIX in $cwd";
       }
     }
   }
