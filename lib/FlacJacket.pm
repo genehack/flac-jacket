@@ -258,9 +258,17 @@ sub MakeCover {
 
   foreach my $ext ( keys %outputs ) {
     my $p = Image::Magick->new;
-    $p->Read( $real_file );
-    $p->Scale( geometry => $outputs{$ext} );
-    $p->Write( "./cover.$ext" );
+    my $x = $p->Read( $real_file );
+    warn "$x" if $x;
+
+    $x = $p->Scale( geometry => $outputs{$ext} );
+    warn "$x" if $x;
+
+    $x = $p->Write( "./cover.$ext" );
+    warn "$x" if $x;
+
+    print "Wrote ./cover.$ext\n";
+
   }
 
 } #/MakeCover
