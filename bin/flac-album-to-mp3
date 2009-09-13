@@ -32,4 +32,3 @@ if [ -e meta ]; then
     retag
 fi
 
-$RM -rf art meta cover.*
