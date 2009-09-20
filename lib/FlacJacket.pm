@@ -11,7 +11,7 @@ use Cwd;
 use File::Copy;
 use File::Path;
 use File::Remove qw/ remove /;
-use Image::Magick;
+use Imager;
 use List::MoreUtils  qw/ any /;
 use MP3::Info;
 use XML::Simple;
@@ -257,15 +257,14 @@ sub MakeCover {
     unless $real_file;
 
   foreach my $ext ( keys %outputs ) {
-    my $p = Image::Magick->new;
-    my $x = $p->Read( $real_file );
-    warn "$x" if $x;
+    my $p = Imager->new( file => $real_file )
+      or die Imager->errstr();
 
-    $x = $p->Scale( geometry => $outputs{$ext} );
-    warn "$x" if $x;
+    my $x = $p->scale( xpixels => $outputs{$ext} )
+      or die Imager->errstr();
 
-    $x = $p->Write( "./cover.$ext" );
-    warn "$x" if $x;
+    $x->write( file => "./cover.$ext" )
+      or die $x->errstr();
 
     print "Wrote ./cover.$ext\n";
 
