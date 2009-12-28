@@ -220,9 +220,9 @@ sub TagHashToYAML {
   $yaml->{track}     = $track;
   $yaml->{year}      = $tag->{YEAR};
 
-  my( $prefix ) = $file =~ /^\d-(\d\d+)-/
+  my( $disk , $prefix ) = $file =~ /^(\d)-(\d\d+)-/
     or croak "can't get prefix from $file\n";
-  my $out = "meta/1-$prefix-meta.yml";
+  my $out = "meta/$disk-$prefix-meta.yml";
   DumpFile( $out , $yaml );
 
   my $return = LoadFile( $out );
