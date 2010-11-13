@@ -1,0 +1,8 @@
+---
+create:
+  links:
+    - bin/make-cover: BIN
+    - bin/convert-mp3-dir: BIN
+    - bin/retag: BIN
+    - bin/retag-whole-tree: BIN
+
