@@ -1,0 +1,20 @@
+#! /bin/sh
+
+
+rsync -auz --delete --delete-excluded           \
+      --exclude .DS_Store                        \
+  /Volumes/Media/music billygoatgruff:/Volumes/Music
+
+#rsync -auz --delete --delete-excluded           \
+#      --exclude .DS_Store                        \
+#  /Volumes/Media/OLD_mp3 billygoatgruff:/Volumes/Music
+
+rsync -auz --delete --delete-excluded           \
+      --exclude .Spotlight-V100                  \
+      --exclude .fseventsd                       \
+      --exclude lost+found                       \
+      --exclude .Trashes                         \
+      --exclude .com.apple.timemachine.supported \
+      --exclude .DS_Store                        \
+      --exclude INCOMING                         \
+  /Volumes/Media/ /net/ankh/files/
