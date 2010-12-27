@@ -28,7 +28,12 @@ FlacJacket::MakeCover();
 foreach my $file ( glob '*.mp3' ) {
   # conditional rename
   unless ( $file =~ /^1-/ ) {
-    my $new_file = FlacJacket::SanitizeFileName( $file );
+
+    my $new_file = $file;
+
+    $new_file =~ s/ /-/ if ( $new_file =~ /^\d-\d\d / );
+
+    $new_file = FlacJacket::SanitizeFileName( $new_file );
     $new_file =~ s/^(\d\d+)\s*-?\s*(.*)$/1-$1-$2/;
     move( $file , $new_file ) or die "mv $file $new_file failed";
     $file = $new_file;
