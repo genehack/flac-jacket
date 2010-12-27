@@ -20,7 +20,6 @@ foreach ( qw| art meta |) {
 }
 
 croak "no cover" unless -e "./cover.jpg";
-move( "cover.jpg" , "art/insert-front.jpg" );
 FlacJacket::MakeCover();
 
 
