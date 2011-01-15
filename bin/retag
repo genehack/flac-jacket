@@ -12,10 +12,17 @@ use FindBin;
 use lib "$FindBin::RealBin/../lib";
 use FlacJacket;
 
-my( $opt_g );
-getopts('g');
+my( $opt_g , $opt_q );
+getopts('gq');
 
-croak "No meta information found\n" unless -d './meta';
-croak "No cover art found\n"        unless -e "./cover.jpg";
+if ( ! -d './meta' ) {
+  print STDERR "No meta information found\n" unless $opt_q;
+  exit(1);
+}
+
+if ( ! -d './cover.jpg' ) {
+  print STDERR "No cover art found\n" unless $opt_q;
+  exit(2);
+}
 
 FlacJacket::RetagCurrentDirectory( $opt_g );
