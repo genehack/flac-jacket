@@ -9,7 +9,7 @@ fi
 for i in /files/music/*/* ; do 
     echo "retagging in DIR: $i"
     cd "$i"
-    $RETAG
+    $RETAG -q
 done
 
 cd
