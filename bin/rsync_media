@@ -17,4 +17,4 @@ rsync -auz --delete --delete-excluded           \
       --exclude .com.apple.timemachine.supported \
       --exclude .DS_Store                        \
       --exclude INCOMING                         \
-  /Volumes/Media/ /net/ankh/files/
+  /Volumes/Media/ /net/klatch/files/
