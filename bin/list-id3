@@ -1,7 +1,6 @@
 #! /bin/bash
-
-# $Id$
-# $URL$
+# ABSTRACT: 
+# PODNAME: list-id3
 
 clear
 

@@ -1,4 +1,6 @@
 #! /opt/perl/bin/perl
+# ABSTRACT: Extract data from a directory of M4A files into YAML files
+# PODNAME: convert-m4a-dir
 
 use strict;
 use warnings;

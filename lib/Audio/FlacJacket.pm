@@ -1,4 +1,5 @@
-package FlacJacket;
+package Audio::FlacJacket;
+# ABSTRACT: utils to manipulate FLAC & MP3 tags
 
 use strict;
 use warnings;
