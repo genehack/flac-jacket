@@ -1,5 +1,5 @@
 #! /opt/perl/bin/perl
-
+# PODNAME: convert-mp3-dir
 use strict;
 use warnings;
 
@@ -42,6 +42,3 @@ foreach my $file ( glob '*.mp3' ) {
 
   FlacJacket::ApplyTagsToFile( $tags , $file );
 }
-
-
-

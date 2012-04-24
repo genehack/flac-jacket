@@ -1,5 +1,5 @@
 #! /bin/bash
-
+# PODNAME: flac-album-to-mp3
 FLAC=`which flac`
 LAME=`which lame`
 RM=/bin/rm

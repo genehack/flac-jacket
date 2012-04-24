@@ -1,8 +1,5 @@
 #! /bin/bash
-
-# $Id$
-# $URL$
-
+# PODNAME: list-id3
 clear
 
 for i in ./*.mp3 ; do

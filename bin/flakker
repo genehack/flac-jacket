@@ -1,5 +1,5 @@
 #! /opt/perl/bin/perl
-
+# PODNAME: flakker
 # $Id$
 # $URL$
 
@@ -14,7 +14,7 @@ use FindBin;
 use lib "$FindBin::RealBin/../lib";
 use FlacJacket;
 
-die "need a /music/INCOMING dir" 
+die "need a /music/INCOMING dir"
   unless -d '/music/INCOMING';
 
 die "can't get to /music/INCOMING"
@@ -34,7 +34,7 @@ else {
   foreach my $disk ( 1 .. $count ) {
     print "\nReady to rip disk #$disk. Hit <RET> when disk is loaded.";
     <STDIN>;
-    FlacJacket::RipDisk( $disk , $count , $year , $genre );      
+    FlacJacket::RipDisk( $disk , $count , $year , $genre );
   }
 }
 
@@ -54,15 +54,15 @@ sub getInputDirectory {
   mkpath $DIR;
   croak "Couldn't make $DIR"
     unless -d $DIR;
-  
+
   mkpath "$DIR/art";
   croak "Couldn't make $DIR/art"
     unless -d "$DIR/art";
-  
+
   mkpath "$DIR/meta";
   croak "Couldn't make $DIR/meta"
     unless -d "$DIR/meta";
-  
+
   chdir $DIR;
   return $DIR;
 } #/getInputDirectory

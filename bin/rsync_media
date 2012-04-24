@@ -1,5 +1,5 @@
 #! /bin/sh
-
+# PODNAME: rsync_media
 
 rsync -auz --delete --delete-excluded           \
       --exclude .DS_Store                        \

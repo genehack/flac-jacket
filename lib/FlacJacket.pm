@@ -1,5 +1,5 @@
 package FlacJacket;
-
+# ABSTRACT: Utility routines for MP3/FLAC file management
 use strict;
 use warnings;
 

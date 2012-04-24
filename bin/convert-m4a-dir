@@ -1,5 +1,5 @@
 #! /opt/perl/bin/perl
-
+# PODNAME: convert-m4a-dir
 use strict;
 use warnings;
 
@@ -36,6 +36,3 @@ foreach my $file ( glob '*.m4a' ) {
 
 #  FlacJacket::ApplyTagsToFile( $tags , $file );
 }
-
-
-
