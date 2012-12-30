@@ -129,7 +129,7 @@ sub ApplyTagsToMp3 {
     "--title=\"$tags->{title}\""            ,
     "--track=\"$tags->{track}\""            ,
     "--track-total=\"$tags->{numTracks}\""  ,
-    "--year=\"$tags->{year}\""              ,
+    "-Y=\"$tags->{year}\""              ,
   );
   if ( $tags->{disk} ) {
     push @options ,
