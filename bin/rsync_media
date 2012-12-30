@@ -1,7 +1,28 @@
 #! /bin/sh
 # PODNAME: rsync_media
 
-rsync -auz --delete --delete-excluded               \
+args=`getopt v $*`
+
+if [ $? != 0 ]; then
+    echo "error!"
+    exit 2
+fi
+
+set -- $args
+
+VERBOSE=""
+for i ; do
+    case "$i"
+        in
+        -v)
+            VERBOSE="-v";
+            shift;;
+        --)
+            shift; break;;
+    esac
+done
+
+rsync -auz $VERBOSE --delete --delete-excluded      \
       --exclude .DS_Store                           \
       --exclude .DocumentRevisions-V100             \
       --exclude .Spotlight-V100                     \
