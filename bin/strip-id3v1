@@ -1,4 +1,5 @@
 #! /bin/bash
+# PODNAME: strip-id3v1
 
 # $Id$
 # $URL$

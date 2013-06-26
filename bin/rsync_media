@@ -1,4 +1,5 @@
 #! /bin/sh
+# PODNAME: fuck off already
 
 
 rsync -auz --delete --delete-excluded           \

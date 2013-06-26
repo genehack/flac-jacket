@@ -1,4 +1,5 @@
 #! /bin/sh
+# PODNAME: fuck off already
 
 RETAG=`which retag 2>/dev/null`;
 if [ "x$RETAG" = "x" ]; then

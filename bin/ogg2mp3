@@ -1,4 +1,6 @@
 #! /opt/perl/bin/perl -w
+# ABSTRACT: mu
+# PODNAME: ogg2mp3
 
 # $Id$
 # $URL$

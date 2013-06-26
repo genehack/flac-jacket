@@ -1,4 +1,6 @@
 #! /opt/perl/bin/perl
+# ABSTRACT: mu
+# PODNAME: partial
 
 # $Id$
 # $URL$
@@ -10,7 +12,7 @@ use FindBin;
 use lib "$FindBin::RealBin/../lib";
 use FlacJacket;
 
-unlink 'audio.cddb';  
+unlink 'audio.cddb';
 unlink $_ foreach glob( '*.inf' );
 foreach my $wav ( glob( '*.wav' )) {
   `flac $wav`;

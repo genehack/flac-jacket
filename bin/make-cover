@@ -1,14 +1,16 @@
-#! /opt/perl/bin/perl
+#! /usr/bin/env perl
+# ABSTRACT: mu
+# PODNAME: make-cover
 
 # $Id$
 # $URL$
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
-use FlacJacket;
+use Audio::FlacJacket;
 
 my $file = shift;
 
 $file =~ s/.(jpg|png)$//g;
 
-FlacJacket::MakeCover( $file );
+Audio::FlacJacket::MakeCover( $file );

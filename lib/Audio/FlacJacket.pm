@@ -130,7 +130,7 @@ sub ApplyTagsToMp3 {
     "--title=\"$tags->{title}\""            ,
     "--track=\"$tags->{track}\""            ,
     "--track-total=\"$tags->{numTracks}\""  ,
-    "--year=\"$tags->{year}\""              ,
+    "-Y=\"$tags->{year}\""              ,
   );
   if ( $tags->{disk} ) {
     push @options ,
@@ -426,12 +426,12 @@ sub RetagCurrentDirectory {
     }
     else { $album->[$disk] = $tags->{album} }
 
-    my $name = FlacJacket::SanitizeFileName( $tags->{title} );
+    my $name = Audio::FlacJacket::SanitizeFileName( $tags->{title} );
     if ( my @files = glob( "$prefix-$name.*" )) {
       foreach my $file ( @files ) {
         next if ( -M $file < -M $meta );
         print "Retagging '$file'\n";
-        FlacJacket::ApplyTagsToFile( $tags , $file );
+        Audio::FlacJacket::ApplyTagsToFile( $tags , $file );
         $change++;
       }
     }
@@ -443,7 +443,7 @@ sub RetagCurrentDirectory {
           my $dest = "$prefix-$name.$suffix";
           move( $file , $dest );
           print "Retagging '$dest'\n";
-          FlacJacket::ApplyTagsToFile( $tags , $dest );
+          Audio::FlacJacket::ApplyTagsToFile( $tags , $dest );
           $change++;
         }
       }
