@@ -133,7 +133,7 @@ sub ApplyTagsToMp3 {
   );
   if ( $tags->{disk} ) {
     push @options ,
-      "--user-text-frame=\"TPOS:$tags->{disk}\"" ;
+      "--text-frame=\"TPOS:$tags->{disk}\"" ;
   }
   if ( $tags->{compilation} ) {
     push @options , '--user-text-frame="TCMP:1"';
