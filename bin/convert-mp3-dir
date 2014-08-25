@@ -28,7 +28,7 @@ Audio::FlacJacket::MakeCover();
 
 foreach my $file ( glob '*.mp3' ) {
   # conditional rename
-  unless ( $file =~ /^1-/ ) {
+  unless ( $file =~ /^0?[12]-/ ) {
 
     my $new_file = $file;
 
