@@ -1,8 +1,6 @@
-#! /bin/bash
+#! /bin/sh
 # PODNAME: v1tags2v2tags
-# $Id$
-# $URL$
 
 id3v2 -C *.mp3
-strip-id3v1 
+strip-id3v1
 list-id3

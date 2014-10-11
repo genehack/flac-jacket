@@ -1,9 +1,7 @@
 #! /usr/bin/ruby -w
 # PODNAME: make-meta-files
-# $Id$
-# $URL$
 
-def prompt_and_chomp (prompt) 
+def prompt_and_chomp (prompt)
   print prompt
   response = gets
   response.chomp!
@@ -62,9 +60,7 @@ year: #{year}
 YAML
 
     end
-      
+
     puts "Wrote file for track #{track}/#{tracks}";
   end
 end
-
-

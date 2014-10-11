@@ -22,15 +22,17 @@ for i ; do
     esac
 done
 
-rsync -auz $VERBOSE --delete --delete-excluded      \
-      --exclude .DS_Store                           \
-      --exclude .DocumentRevisions-V100             \
-      --exclude .Spotlight-V100                     \
-      --exclude .TemporaryItems                     \
-      --exclude .Trashes                            \
-      --exclude .apdisk                             \
-      --exclude .com.apple.timemachine.donotpresent \
-      --exclude .com.apple.timemachine.supported    \
-      --exclude .fseventsd                          \
-      --exclude lost+found                          \
-  /Volumes/Media/ ferb:/files/media/
+for i in INCOMING WAV movies music photos tv_shows videos ; do
+    rsync -auz $VERBOSE --delete --delete-excluded      \
+          --exclude .DS_Store                           \
+          --exclude .DocumentRevisions-V100             \
+          --exclude .Spotlight-V100                     \
+          --exclude .TemporaryItems                     \
+          --exclude .Trashes                            \
+          --exclude .apdisk                             \
+          --exclude .com.apple.timemachine.donotpresent \
+          --exclude .com.apple.timemachine.supported    \
+          --exclude .fseventsd                          \
+          --exclude lost+found                          \
+      /Volumes/Media/$i/ ferb:/files/$i/
+done

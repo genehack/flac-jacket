@@ -1,5 +1,7 @@
 #! /opt/perl/bin/perl
+# ABSTRACT: Extract data from a directory of M4A files into YAML files
 # PODNAME: convert-m4a-dir
+
 use strict;
 use warnings;
 
@@ -9,7 +11,7 @@ use File::Path;
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
-use FlacJacket;
+use Audio::FlacJacket;
 
 foreach ( qw| art meta |) {
   if ( -e $_ ) {

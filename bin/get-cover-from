@@ -1,6 +1,4 @@
 #! /bin/bash
 # PODNAME: get-cover-from
-# $Id$
-# $URL$
 
 wget -O cover.jpg "$@"

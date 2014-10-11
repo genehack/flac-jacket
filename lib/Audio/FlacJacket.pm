@@ -1,5 +1,6 @@
-package FlacJacket;
-# ABSTRACT: Utility routines for MP3/FLAC file management
+package Audio::FlacJacket;
+# ABSTRACT: utils to manipulate FLAC & MP3 tags
+
 use strict;
 use warnings;
 
@@ -115,7 +116,7 @@ sub ApplyTagsToFlac {
 sub ApplyTagsToMp3 {
   my( $tags , $file ) = ( @_ );
 
-  my $ret1 = system "eyeD3 --remove-all $file 2>/dev/null >/dev/null";
+  my $ret1 = system "eyeD3 --remove-all '$file' 2>/dev/null >/dev/null";
   return -1 if $ret1;
 
   my $artist = join '/' , @{ $tags->{artist} };
@@ -129,11 +130,11 @@ sub ApplyTagsToMp3 {
     "--title=\"$tags->{title}\""            ,
     "--track=\"$tags->{track}\""            ,
     "--track-total=\"$tags->{numTracks}\""  ,
-    "-Y=\"$tags->{year}\""              ,
+    "-Y\"$tags->{year}\""                   ,
   );
   if ( $tags->{disk} ) {
     push @options ,
-      "--user-text-frame=\"TPOS:$tags->{disk}\"" ;
+      "--text-frame=\"TPOS:$tags->{disk}\"" ;
   }
   if ( $tags->{compilation} ) {
     push @options , '--user-text-frame="TCMP:1"';
@@ -141,7 +142,7 @@ sub ApplyTagsToMp3 {
 
 
   my $options = join ' ' , @options;
-  my $ret2 = system "eyeD3 $options $file 2>/dev/null >/dev/null";
+  my $ret2 = system "eyeD3 $options '$file' 2>/dev/null >/dev/null";
   return -2 if $ret2;
 
   return 0;
@@ -425,12 +426,12 @@ sub RetagCurrentDirectory {
     }
     else { $album->[$disk] = $tags->{album} }
 
-    my $name = FlacJacket::SanitizeFileName( $tags->{title} );
+    my $name = Audio::FlacJacket::SanitizeFileName( $tags->{title} );
     if ( my @files = glob( "$prefix-$name.*" )) {
       foreach my $file ( @files ) {
         next if ( -M $file < -M $meta );
         print "Retagging '$file'\n";
-        FlacJacket::ApplyTagsToFile( $tags , $file );
+        Audio::FlacJacket::ApplyTagsToFile( $tags , $file );
         $change++;
       }
     }
@@ -442,7 +443,7 @@ sub RetagCurrentDirectory {
           my $dest = "$prefix-$name.$suffix";
           move( $file , $dest );
           print "Retagging '$dest'\n";
-          FlacJacket::ApplyTagsToFile( $tags , $dest );
+          Audio::FlacJacket::ApplyTagsToFile( $tags , $dest );
           $change++;
         }
       }

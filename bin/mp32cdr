@@ -1,15 +1,13 @@
 #! /bin/sh
 # PODNAME: mp32cdr
-# $Id$
-# $URL$
 
-for i in *.mp3; do 
+for i in *.mp3; do
     echo -n "Burning '$i'..."
     /usr/bin/mpg123 -q --cdr - "$i" | /usr/bin/cdrecord dev=0,0,0 speed=52 gracetime=2 -s -audio -pad -nofix -
     echo "done."
 done
 
-echo 
+echo
 echo -n "Fixing disk..."
 /usr/bin/cdrecord dev=0,0,0 speed=52 gracetime=2 -s -fix -eject
 echo "done."

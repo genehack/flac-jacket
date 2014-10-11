@@ -1,7 +1,6 @@
 #! /opt/perl/bin/perl
 # PODNAME: flakker
-# $Id$
-# $URL$
+# ABSTRACT: flakker
 
 use strict;
 use warnings;

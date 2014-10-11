@@ -1,5 +1,7 @@
 #! /bin/bash
 # PODNAME: list-id3
+# ABSTRACT:  list id3 tags
+
 clear
 
 for i in ./*.mp3 ; do

@@ -1,6 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 # PODNAME: strip-id3v1
-# $Id$
-# $URL$
 
 id3v2 -s *.mp3

@@ -1,5 +1,7 @@
-#! /opt/perl/bin/perl
+#! /usr/bin/env perl
+# ABSTRACT: retag
 # PODNAME: retag
+
 use strict;
 use warnings;
 
@@ -10,7 +12,7 @@ use YAML  qw/ LoadFile /;
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
-use FlacJacket;
+use Audio::FlacJacket;
 
 our( $opt_g , $opt_q );
 getopts('gq');
@@ -25,4 +27,4 @@ if ( ! -e './cover.jpg' ) {
   exit(2);
 }
 
-FlacJacket::RetagCurrentDirectory( $opt_g );
+Audio::FlacJacket::RetagCurrentDirectory( $opt_g );
