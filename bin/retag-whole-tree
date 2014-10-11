@@ -1,5 +1,6 @@
 #! /bin/sh
 # PODNAME: retag-whole-tree
+
 RETAG=`which retag 2>/dev/null`;
 if [ "x$RETAG" = "x" ]; then
     echo "Can't find 'retag' in \$PATH"

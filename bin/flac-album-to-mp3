@@ -1,5 +1,6 @@
 #! /bin/bash
 # PODNAME: flac-album-to-mp3
+
 FLAC=`which flac`
 LAME=`which lame`
 RM=/bin/rm
@@ -19,7 +20,7 @@ if [ ! -e $RM ]; then
     exit 3
 fi
 
-for i in *.flac ; do  
+for i in *.flac ; do
     if [ -e $i ]; then
         echo $i
         $FLAC -cds $i | $LAME -Sh - ${i%.flac}.mp3

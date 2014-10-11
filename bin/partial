@@ -1,7 +1,6 @@
-#! /opt/perl/bin/perl
+#! /usr/bin/env perl
 # PODNAME: partial
-# $Id$
-# $URL$
+# ABSTRACT: partial
 
 use strict;
 use warnings;

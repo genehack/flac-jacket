@@ -1,9 +1,9 @@
-#! /opt/perl/bin/perl -w
+#! /usr/bin/env perl
 # PODNAME: ogg2mp3
-# $Id$
-# $URL$
+# ABSTRACT: ogg 2 mp3
 
 use strict;
+use warnings;
 $|++;
 
 foreach( <*/*.ogg> ) {
