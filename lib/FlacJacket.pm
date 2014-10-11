@@ -115,7 +115,7 @@ sub ApplyTagsToFlac {
 sub ApplyTagsToMp3 {
   my( $tags , $file ) = ( @_ );
 
-  my $ret1 = system "eyeD3 --remove-all $file 2>/dev/null >/dev/null";
+  my $ret1 = system "eyeD3 --remove-all '$file' 2>/dev/null >/dev/null";
   return -1 if $ret1;
 
   my $artist = join '/' , @{ $tags->{artist} };
@@ -141,7 +141,7 @@ sub ApplyTagsToMp3 {
 
 
   my $options = join ' ' , @options;
-  my $ret2 = system "eyeD3 $options $file 2>/dev/null >/dev/null";
+  my $ret2 = system "eyeD3 $options '$file' 2>/dev/null >/dev/null";
   return -2 if $ret2;
 
   return 0;
