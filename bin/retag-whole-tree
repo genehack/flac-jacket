@@ -7,7 +7,7 @@ if [ "x$RETAG" = "x" ]; then
     exit 1
 fi
 
-for i in /files/music/*/* ; do 
+for i in /files/music/*/* ; do
     echo "retagging in DIR: $i"
     cd "$i"
     $RETAG -q

@@ -11,7 +11,7 @@ use File::Path;
 
 use FindBin;
 use lib "$FindBin::RealBin/../lib";
-use FlacJacket;
+use Audio::FlacJacket;
 
 foreach ( qw| art meta |) {
   if ( -e $_ ) {
